@@ -1,0 +1,15 @@
+<!--pages/ceshi/ceshi.wxml-->
+<!-- <text>pages/ceshi/ceshi.wxml</text> -->
+<view>我是测试页</view>
+<view>{{array}}</view>    <!-- 全局变量 -->
+<view bindtap="text_network">~~~网络测试请求~~~</view>
+<view bindtap="save_data">~~~保存</view>
+<view bindtap="read_data">~~~读取</view>
+<view bindtap="remove_data">~~~清除当前</view>
+<view bindtap="clear_data">~~~清空所有</view>
+
+
+<view wx:for="{{list}}" wx:key="list">
+  <view>{{item.id}}</view>
+  <view>{{item.name}}</view>
+</view>

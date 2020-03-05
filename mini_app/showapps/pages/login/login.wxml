@@ -1,0 +1,7 @@
+<!--pages/login/login.wxml-->
+<text>pages/login/login.wxml</text>
+<button bindtap="getCookie">获取cookie并且保存</button>
+<view>            1 </view>
+<button bindtap="sendCookie">发送cookie</button>
+<view>            1 </view>
+<button bindtap="authorize">认证登录</button>

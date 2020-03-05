@@ -1,0 +1,7 @@
+<!--pages/jokes/jokes.wxml-->
+<!-- 这里不用加事件了  因为是在生命周期函数onload里面的 运行文件就出来了 -->
+<text>jokes</text>
+<!-- //第二行和第四行  下午不是这样的吗  我忘了--> 
+<text wx:for='{{content}}'>
+  \n{{index+1}}.{{item.content}}\n
+</text>
