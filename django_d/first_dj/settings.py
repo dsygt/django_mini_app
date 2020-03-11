@@ -94,14 +94,14 @@ WSGI_APPLICATION = 'first_dj.wsgi.application'
 #     }
 # }
 
-DATABASES={
+DATABASES = {
     'default': {
-        'ENGINE':'django.db.backends.mysql',
-        'NAME':'user_dj',
-        'USER':'root',
-        'PASSWORD':'12345678',
-        'HOST':'127.0.0.1',
-        'PORT':'3306',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'user_dj',
+        'USER': 'root',
+        'PASSWORD': '12345678',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     },
 }
 # 密码验证
@@ -144,3 +144,84 @@ USE_TZ = False
 STATIC_URL = 'static/'
 STATIC_ROOT_SELF = os.path.join(BASE_DIR, "static").replace('\\', '/')
 # print(66666,STATIC_ROOT_SELF)
+
+import os
+
+LOG_DIR = os.path.join(BASE_DIR, 'test_no/')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+LOGGING = {
+    'version': 1,
+    # 默认的日志功能关闭
+    'disable_existing_loggers': True,
+    # # 日志格式
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [ %(threadName)s : %(thread)d ] '
+                      '%(pathname)s : %(funcName)s : %(lineno)d %(levelname)s - %(message)s'
+            # 'format': '%(asctime)s [%(threadName)s:%(thread)d] '
+            #           '[%(pathname)s:%(funcName)s:%(lineno)d] [%(levelname)s]- %(message)s'
+        },
+        'myformat': {
+            'format': '%(asctime)s'
+                      '%(pathname)s : %(funcName)s'
+        }
+    },
+    # 过滤器
+    'filters': {
+        'xxx': {
+            # 值:过滤器的路径
+            '()': 'test_no.XXXFilter'
+        }
+    },
+    # 处理器
+    'handlers': {
+        # 输出到控制台(终端处理器)
+        'console_handler': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+        # 输出到文件
+        'file_handler': {
+            # 记录到日志文件(需要创建对应的目录，否则会出错)
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            # todo 可能需要修改
+            'filename': os.path.join(BASE_DIR, 'test_no/log.log'),
+            'maxBytes': 100 * 1024 * 1024,  # 文件大小
+            'backupCount': 3,  # 备份份数
+            'formatter': 'myformat',  # 使用哪种formatters日志格式
+            'encoding': 'utf-8'
+        },
+    },
+    # logging管理器
+    'loggers': {
+        'django': {
+            'handlers': ['console_handler', 'file_handler'],
+            'filters': ['xxx'],
+            'level': 'DEBUG'
+        }
+    }
+}
+
+CACHES = {
+    'default': {
+        # 1. MemCache
+        # 'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        # 'LOCATION': '127.0.0.1:11211',
+
+        # 2. DB Cache
+        # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        # 'LOCATION': 'my_cache_table',
+
+        # 3. Filesystem Cache
+        # 'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        # 'LOCATION': '/var/tmp/django_cache',
+
+        # 4. Local Mem Cache
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'backend-cache'
+    }
+}
