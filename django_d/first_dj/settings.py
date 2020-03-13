@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     # 创建一个app后,必须来这里注册
     'app1.apps.App1Config',
     'juheapp.apps.JuheappConfig'
+    
+    # 第三方配置,
+    # 定时任务ceontab的注册,只能在linux上运行
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -225,3 +229,11 @@ CACHES = {
         'LOCATION': 'backend-cache'
     }
 }
+
+CRONJOBS=[
+	# 具体的定时任务
+	('*/2****','cron.jobs.demo'),#路径要和下面的demo.py路径相同
+	('*/2****','echo "xxxx" > /dev/null'),
+	('*/2****','/bin/ls')
+
+]
