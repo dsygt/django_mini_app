@@ -8,7 +8,7 @@ from utils.responseutil import UtilMixin
 from utils.responseutil import ResponseMixin
 from first_dj.appid import *
 from juheapp.models import *
-
+from ops.jobs import *
 
 # from utils.wx.code2session import code2session
 
@@ -42,6 +42,8 @@ def apps(request):
     filepath = r'D:\study\project__\django_333\first_dj\first_dj\myappconfig.yaml'
     with open(filepath, 'r', encoding='utf8') as f:
         res = yaml.load(f, Loader=yaml.FullLoader)
+    # # 调用ops邮件函数
+    # send_email()
     return JsonResponse(res, safe=False)
 
 

@@ -1,0 +1,11 @@
+{'start_time': 1584417629.8612375, 'end_time': 1584417641.146127, 'used_time': 11.284889459609985, 'path': '/api/v1.0/jokes/joke/'}
+{'start_time': 1584417766.4107745, 'end_time': 1584417766.4279308, 'used_time': 0.017156362533569336, 'path': '/api/v1.0/jokes/joke/'}
+{'start_time': 1584419923.9987457, 'end_time': 1584419924.008217, 'used_time': 0.009471416473388672, 'path': '/api/v1.0/jokes/joke/'}
+{'start_time': 1584419925.2158296, 'end_time': 1584419925.224884, 'used_time': 0.009054422378540039, 'path': '/api/v1.0/jokes/joke/'}
+{'start_time': 1584419926.1209657, 'end_time': 1584419926.1299405, 'used_time': 0.008974790573120117, 'path': '/api/v1.0/jokes/joke/'}
+{'start_time': 1584419946.4305556, 'end_time': 1584419946.712005, 'used_time': 0.2814493179321289, 'path': '/admin/'}
+{'start_time': 1584419946.7212958, 'end_time': 1584419948.1845932, 'used_time': 1.4632973670959473, 'path': '/admin/login/'}
+{'start_time': 1584419948.2580743, 'end_time': 1584419948.28699, 'used_time': 0.0289156436920166, 'path': '/admin/login/static/admin/css/base.css'}
+{'start_time': 1584419948.2710352, 'end_time': 1584419948.293973, 'used_time': 0.022937774658203125, 'path': '/admin/login/static/admin/css/responsive.css'}
+{'start_time': 1584419948.264053, 'end_time': 1584419948.2989953, 'used_time': 0.0349421501159668, 'path': '/admin/login/static/admin/css/login.css'}
+{'start_time': 1584454609.741458, 'end_time': 1584454610.1693516, 'used_time': 0.42789363861083984, 'path': '/app/v1.0/jokes/joke'}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from mymiddleware.mymiddleware123 import StatisticsMiddle
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -38,13 +39,14 @@ INSTALLED_APPS = [
 
     # 创建一个app后,必须来这里注册
     'app1.apps.App1Config',
-    'juheapp.apps.JuheappConfig'
-    
+    'juheapp.apps.JuheappConfig',
+
     # 第三方配置,
     # 定时任务ceontab的注册,只能在linux上运行
-    'django_crontab'
+    # 'django_crontab'
 ]
 
+# 中间件
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -53,7 +55,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 导入自定义的middleware
+    'mymiddleware.mymiddleware123.StatisticsMiddle'
+
 ]
+
 # 图片上传地址??
 UPLOAD_PIC_DIR = os.path.join(BASE_DIR, 'resource', 'uploadpic')
 
@@ -106,6 +113,9 @@ DATABASES = {
         'PASSWORD': '12345678',
         'HOST': '127.0.0.1',
         'PORT': '3306',
+        'OPTIONS': {
+            'autocommit': True,
+        },
     },
 }
 # 密码验证
@@ -157,20 +167,24 @@ if not os.path.exists(LOG_DIR):
 
 LOGGING = {
     'version': 1,
+
     # 默认的日志功能关闭
     'disable_existing_loggers': True,
+
     # # 日志格式
     'formatters': {
         'standard': {
             'format': '%(asctime)s [ %(threadName)s : %(thread)d ] '
                       '%(pathname)s : %(funcName)s : %(lineno)d %(levelname)s - %(message)s'
-            # 'format': '%(asctime)s [%(threadName)s:%(thread)d] '
-            #           '[%(pathname)s:%(funcName)s:%(lineno)d] [%(levelname)s]- %(message)s'
         },
         'myformat': {
             'format': '%(asctime)s'
                       '%(pathname)s : %(funcName)s'
-        }
+        },
+        'statistics': {
+            'format': '%(message)s'
+        },
+
     },
     # 过滤器
     'filters': {
@@ -196,17 +210,38 @@ LOGGING = {
             'filename': os.path.join(BASE_DIR, 'test_no/log.log'),
             'maxBytes': 100 * 1024 * 1024,  # 文件大小
             'backupCount': 3,  # 备份份数
-            'formatter': 'myformat',  # 使用哪种formatters日志格式
+            # 'formatter': 'myformat',  # 使用哪种formatters日志格式
+            'formatter': 'standard',  # 使用全部的统一format,或者上面的
             'encoding': 'utf-8'
         },
+        # 输出到文件
+        'statistics_handler': {
+
+            # 记录到日志文件(需要创建对应的目录，否则会出错)
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            # todo 可能需要修改
+            'filename': os.path.join(BASE_DIR, 'test_no/statistics.log'),
+            'maxBytes': 100 * 1024 * 1024,  # 文件大小
+            'backupCount': 1,  # 备份份数
+            # 'formatter': 'myformat',  # 使用哪种formatters日志格式
+            'formatter': 'statistics',  # 使用全部的统一format,或者上面的
+            'encoding': 'utf-8'
+        },
+
     },
+
     # logging管理器
     'loggers': {
         'django': {
             'handlers': ['console_handler', 'file_handler'],
             'filters': ['xxx'],
             'level': 'DEBUG'
-        }
+        },
+        'statistics': {
+            'handlers': ['statistics_handler'],
+            'level': 'DEBUG'
+        },
     }
 }
 
@@ -230,10 +265,26 @@ CACHES = {
     }
 }
 
-CRONJOBS=[
-	# 具体的定时任务
-	('*/2****','cron.jobs.demo'),#路径要和下面的demo.py路径相同
-	('*/2****','echo "xxxx" > /dev/null'),
-	('*/2****','/bin/ls')
+CRONJOBS = [
+    # 具体的定时任务
+    ('*/2****', 'cron.jobs.demo'),  # 路径要和下面的demo.py路径相同
+    ('*/2****', 'echo "xxxx" > /dev/null'),
+    ('*/5****', '/bin/ls'),
+    ('*/5 * * * *', 'ops.jobs.send_email')
 
 ]
+
+# Email config
+# QQ邮箱 SMTP 服务器地址
+EMAIL_HOST = 'smtp.qq.com'
+# 端口  附加码25,465
+# EMAIL_PORT = 25
+EMAIL_PORT = 465
+# 发送邮件的邮箱
+EMAIL_HOST_USER = '2210755345@qq.com'
+# 在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'fvqfwtrsbddxeaad'
+# 开启TLS
+EMAIL_USE_TLS = True
+# 收件人看到的发件人
+EMAIL_FROM = '2210755345@qq.com'

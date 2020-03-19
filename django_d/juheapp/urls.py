@@ -2,7 +2,7 @@ from django.urls import path
 from juheapp import views
 urlpatterns = [
     path('juhe', views.hellojuhe),
-    path('', views.apps),
+    path('joke/', views.apps),
     path('test/', views.testrequest),
     # 图片
     path('image/', views.image),
